@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main() {
+int main12345() {
 
 	int kor = 50, eng = 40, math = 60;
 

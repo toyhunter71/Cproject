@@ -49,8 +49,8 @@ int main() {
 	scanf("%d", &second);
 
 	hour = second / 3600;
-	min = (second - (3600 * hour)) / 60;
-	sec = second - (3600 * hour + 60 * min);
+	min = (second - (3600 * hour)) / 60;     // min = second % 3600 /60;
+	sec = second - (3600 * hour + 60 * min); // sec = second % 60;
 
 	printf("시간은 %d시간 %d분 %d초 입니다!\n", hour, min, sec);
 

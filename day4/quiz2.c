@@ -36,7 +36,7 @@ int main() {
 
 	for (int n1 = 1; n1 < 10; n1++) {
 		for (int n2 = start; n2 <= end; n2++) {
-			printf("%d X %d = %d\t", n2, n1, n2 * n1);
+			printf("%d X %d = %d\t", n2, n1, n2 * n1);0 
 		}
 		printf("\n");
 	}

@@ -37,13 +37,14 @@ int main4() {
 	printf("영어 단어를 입력 하세요  >>>>> ");
 	scanf("%s", str);
 
-	for (i = 0;; i++) {
-		printf("%d 번째 문자는 %s입니다",i,str[i]);
+	for (i = 0;0 < 64; i++) {
+		
 
 		if (str[i] == '\0') {
 			break;
 		}
 		k++;
+		printf("%d 번째 문자는 %c입니다", i, str[i]);
 	}
 	
 	printf("k는 %d ", k);

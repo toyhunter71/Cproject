@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{c82610a1-fb72-438a-8e1e-994648d05c1a}</ProjectGuid>
-    <RootNamespace>Omok</RootNamespace>
+    <ProjectGuid>{ba8c4235-6d09-4428-b764-5d349e03f5be}</ProjectGuid>
+    <RootNamespace>calculator</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -127,19 +127,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="calculator.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Omok.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Omok.cpp" />
+    <ClCompile Include="calculator.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Omok.rc" />
+    <ResourceCompile Include="calculator.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Omok.ico" />
+    <Image Include="calculator.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

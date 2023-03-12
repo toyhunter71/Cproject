@@ -9,7 +9,51 @@
 #define MUL 3
 #define DIV 4
 
-//HWND 
+//DlgProc의 매개변수에 있는 값을 백업해서 다른 함수에서 사용하기 위한 전역변수
+HWND g_hDlg;
+
+void Oper(int first_num, int oper) {
+
+    int num = GetDlgItemInt(g_hDlg, IDC_EDIT1, 0, TRUE);
+
+    if (oper == ADD) {
+
+        SetDlgItemInt(g_hDlg, IDC_EDIT1, first_num + num, TRUE);
+    }
+    else if (oper == SUB) {
+
+        SetDlgItemInt(g_hDlg, IDC_EDIT1, first_num - num, TRUE);
+    }
+    else if (oper == MUL) {
+
+        SetDlgItemInt(g_hDlg, IDC_EDIT1, first_num * num, TRUE);
+    }
+    else if (oper == DIV) {
+
+        if (num != 0) {
+
+            SetDlgItemInt(g_hDlg, IDC_EDIT1, first_num / num, TRUE);
+        }
+        else {
+            SetDlgItemInt(g_hDlg, IDC_EDIT1, 0, TRUE);
+        }
+    }
+}
+
+void NumBtn(int btn_num , int* p_reset_flag) {
+
+    if (*p_reset_flag == 0) {
+
+        int num = GetDlgItemInt(g_hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+        SetDlgItemInt(g_hDlg, IDC_EDIT1, num * 10 + btn_num, TRUE);
+    }
+    else {
+        SetDlgItemInt(g_hDlg, IDC_EDIT1, btn_num, TRUE);
+        *p_reset_flag = 0;
+    }
+
+}
 
 INT_PTR CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -19,6 +63,8 @@ INT_PTR CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
     static int oper;
     static int reset_flag;
     static int first_num;
+
+    g_hDlg = hDlg;                      //함수 안에 있는 지역변수르이 값을 전역변수(멤버변수)에 백업
 
     switch (message)
     {
@@ -40,40 +86,41 @@ INT_PTR CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         else if (key == IDOK ) {
              
             //확인 버튼을  누르면 동작할 코드 (=)
+            Oper(first_num, oper);      //함수 대체
 
-            if (oper == ADD) {
+            //if (oper == ADD) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, first_num + num, TRUE);
-               
-            }
-            else if (oper == SUB) {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, first_num + num, TRUE);
+            //   
+            //}
+            //else if (oper == SUB) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, first_num - num, TRUE);
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, first_num - num, TRUE);
 
-            }
-            else if (oper == MUL) {
+            //}
+            //else if (oper == MUL) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, first_num * num, TRUE);
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, first_num * num, TRUE);
 
-            }
-            else if (oper == DIV) {
+            //}
+            //else if (oper == DIV) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
 
-                if (num != 0) {
+            //    if (num != 0) {
 
-                    SetDlgItemInt(hDlg, IDC_EDIT1, first_num / num, TRUE);
-                }
-                else {
-                    SetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
-                }
-            }
+            //        SetDlgItemInt(hDlg, IDC_EDIT1, first_num / num, TRUE);
+            //    }
+            //    else {
+            //        SetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
+            //    }
+            //}
 
             oper = NONE;
             reset_flag = 1;
@@ -82,124 +129,153 @@ INT_PTR CALLBACK DlgProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
         }
         else if (key == IDC_BUTTON0){
 
-            if (reset_flag == 0) {
+            NumBtn(0, &reset_flag);  //함수 대체
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            //if (reset_flag == 0) {
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 0, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
-                reset_flag = 0;
-            }
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 0, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON1){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(1, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 1, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 1, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 1, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 1, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON2){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(2, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 2, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 2, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 2, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 2, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON3){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(3, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 3, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 3, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 3, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 3, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON4){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(4, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 4, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 4, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 4, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 4, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON5){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(5, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 5, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 5, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 5, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 5, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON6){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(6, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 6, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 6, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 6, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 6, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON7){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(7, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 7, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 7, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 7, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 7, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON8){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(8, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 8, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 8, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 8, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 8, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_BUTTON9){
-            if (reset_flag == 0) {
 
-                int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+            NumBtn(9, &reset_flag);
 
-                SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 9, TRUE);
-            }
-            else {
-                SetDlgItemInt(hDlg, IDC_EDIT1, 9, TRUE);
-                reset_flag = 0;
-            }
+            //if (reset_flag == 0) {
+
+            //    int num = GetDlgItemInt(hDlg, IDC_EDIT1, 0, TRUE);     //현재 쓰여있는 값을 읽어 온다
+
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, num * 10 + 9, TRUE);
+            //}
+            //else {
+            //    SetDlgItemInt(hDlg, IDC_EDIT1, 9, TRUE);
+            //    reset_flag = 0;
+            //}
         }
         else if (key == IDC_CLEAR) {
             reset_flag = 0;
